@@ -1,4 +1,4 @@
-
+/* Nicer background */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -8,7 +8,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f0f0f0;
+  background: linear-gradient(135deg, #c2e9fb, #a1c4fd);
 }
 
 .container {
@@ -60,12 +60,14 @@ button {
   padding: 10px 20px;
   font-size: 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 16px; /* Squircles */
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
   background-color: #ddd;
+  transform: scale(1.03);
 }
 
 #feedback {
@@ -85,7 +87,6 @@ button:hover {
   }
 }
 
-
 #original-word {
   color: #003366; /* Dark blue */
 }
@@ -104,10 +105,20 @@ button:hover {
   color: white;
 }
 
-
 #next-btn {
   background-color: #2196F3; /* Bright blue */
   color: white;
   font-weight: bold;
   border: 2px solid #1976D2;
+}
+
+/* Feedback pulse animation */
+.pulse {
+  animation: pulse-animation 0.5s;
+}
+
+@keyframes pulse-animation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
