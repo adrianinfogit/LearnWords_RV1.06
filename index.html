@@ -35,68 +35,12 @@
         <button id="next-btn" style="display: inline;"><i class="fas fa-arrow-right"></i> Next</button>
       </div>
       <p id="feedback"></p>
-<button id="reset-btn" style="background-color: #ff9800; color: white; margin-top: 10px;"><i class="fas fa-undo"></i> Reset</button>
       <div class="stats">
         <span id="remaining-count">Cards remaining: 0</span>
         <span id="hard-count">Hard cards: 0</span>
       </div>
     </div>
   </div>
-  
-  <script>
-    let availableVoices = [];
-
-    function isIOS() {
-      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    }
-
-    function speakText(text, langCode) {
-      if (speechSynthesis.speaking) {
-        speechSynthesis.cancel();
-      }
-
-      const utterance = new SpeechSynthesisUtterance(text);
-
-      let voice = null;
-      if (isIOS()) {
-        voice = availableVoices.find(v => v.lang === langCode && !v.name.toLowerCase().includes('spell'));
-      } else {
-        voice = availableVoices.find(v => v.lang === langCode);
-      }
-
-      if (!voice) {
-        voice = availableVoices.find(v => v.lang.startsWith(langCode.split('-')[0]));
-      }
-
-      if (voice) {
-        utterance.voice = voice;
-      } else {
-        utterance.lang = langCode;
-      }
-
-      speechSynthesis.speak(utterance);
-    }
-
-    function loadVoicesAndBind() {
-      availableVoices = speechSynthesis.getVoices();
-      const pronounceBtn = document.getElementById("pronounce-btn");
-      pronounceBtn.replaceWith(pronounceBtn.cloneNode(true));
-
-      document.getElementById("pronounce-btn").addEventListener("click", () => {
-        const lang = document.getElementById("language-select").value;
-        const text = document.getElementById("translated-word").textContent.trim();
-        speakText(text, lang);
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      loadVoicesAndBind();
-      if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = loadVoicesAndBind;
-      }
-    });
-  </script>
-
   <script src="app.js"></script>
 </body>
 </html>
