@@ -10,7 +10,7 @@ function loadCards() {
   fetch('words.json')
     .then(response => response.json())
     .then(data => {
-      deck = data;
+      deck = filterHistory(data);
       totalCards = deck.length;
       shuffle(deck);
       showNextCard();
@@ -51,6 +51,7 @@ function showNextCard() {
   }
 
   currentCard = deck.shift();
+  saveHistory(currentCard);
   newWordCount++;
 
   const wordElement = document.getElementById("original-word");
@@ -191,3 +192,25 @@ function shuffle(array) {
 }
 
 window.onload = loadCards;
+
+
+// Track shown cards in localStorage
+function saveHistory(card) {
+  const history = JSON.parse(localStorage.getItem("shownHistory")) || [];
+  history.push(card.original);
+  localStorage.setItem("shownHistory", JSON.stringify(history));
+}
+
+function clearHistory() {
+  localStorage.removeItem("shownHistory");
+  location.reload();
+}
+
+// Reset button event
+document.getElementById("reset-btn").addEventListener("click", clearHistory);
+
+// Filter out cards already shown
+function filterHistory(cards) {
+  const history = JSON.parse(localStorage.getItem("shownHistory")) || [];
+  return cards.filter(card => !history.includes(card.original));
+}
